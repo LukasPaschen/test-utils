@@ -81,7 +81,7 @@ export function mount(
   }
 
   // mount the app!
-  const el = document.createElement('div')
+  let el;
 
   if (options?.attachTo) {
     let to: Element | null
@@ -95,7 +95,7 @@ export function mount(
     } else {
       to = options.attachTo
     }
-
+    el = document.createElement(determineWrapperElement(options.attachTo))
     to.appendChild(el)
   }
   const vm = app.mount(el)
@@ -120,4 +120,14 @@ export function mount(
 
 export const shallowMount: typeof mount = (component: any, options?: any) => {
   return mount(component, { ...options, shallow: true })
+}
+
+function determineWrapperElement(AttachTo: HTMLElement|string):string{
+  if (AttachTo instanceof SVGElement){
+    return "g";
+  }
+  if (AttachTo instanceof MathMLElement){
+    return "mrow";
+  }
+  return "div";
 }
