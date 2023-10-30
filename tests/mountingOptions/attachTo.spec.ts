@@ -19,7 +19,9 @@ describe('options.attachTo', () => {
 
     const root = document.getElementById('root')
     const rendered = document.getElementById('attach-to')!
+    //console.log(div.innerHTML)
     expect(wrapper.vm.$el.parentNode).not.toBeNull()
+    expect(rendered.parentElement!.nodeName).toBe('DIV')
     expect(root).not.toBeNull()
     expect(rendered).not.toBeNull()
     expect(rendered.outerHTML).toBe(outerHTML)
@@ -39,6 +41,7 @@ describe('options.attachTo', () => {
     const root = document.getElementById('root')
     const rendered = document.getElementById('attach-to')!
     expect(wrapper.vm.$el.parentNode).not.toBeNull()
+    expect(rendered.parentElement!.nodeName).toBe('DIV')
     expect(root).not.toBeNull()
     expect(rendered).not.toBeNull()
     expect(rendered.outerHTML).toBe(outerHTML)
@@ -67,7 +70,11 @@ describe('options.attachTo', () => {
     })
     const root = document.getElementById('root')
     const rendered = document.getElementById('attach-to')!
-    expect(rendered.parentElement.nodeName).toBe('G')
+    //console.log(svg.innerHTML)
+    expect(rendered.parentElement!.nodeName).toBe('G')
+    expect(root).not.toBeNull()
+    expect(rendered).not.toBeNull()
+    expect(rendered.outerHTML).toBe(outerHTML)
     wrapper.unmount()
     expect(document.getElementById('attach-to')).toBeNull()
   })
