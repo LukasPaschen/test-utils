@@ -56,5 +56,21 @@ describe('options.attachTo', () => {
     )
   })
 
+  it('wraps with <g> if attachTo is SVGElement', () => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg","svg")
+    svg.id = 'root'
+    document.body.appendChild(svg)
+    expect(document.getElementById('root')).not.toBeNull()
+    expect(document.getElementById('attach-to')).toBeNull()
+    const wrapper = mount(TestComponent, {
+      attachTo: svg
+    })
+    const root = document.getElementById('root')
+    const rendered = document.getElementById('attach-to')!
+    expect(rendered.parentElement.nodeName).toBe('G')
+    wrapper.unmount()
+    expect(document.getElementById('attach-to')).toBeNull()
+  })
+
   it.todo('correctly hydrates markup')
 })
