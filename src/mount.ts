@@ -36,14 +36,14 @@ export type ComponentMountingOptions<T> = Omit<
 export function mount<
   T,
   C = T extends ((...args: any) => any) | (new (...args: any) => any)
-    ? T
-    : T extends { props?: infer Props }
-    ? DefineComponent<
-        Props extends Readonly<(infer PropNames)[]> | (infer PropNames)[]
-          ? { [key in PropNames extends string ? PropNames : string]?: any }
-          : Props
-      >
-    : DefineComponent
+  ? T
+  : T extends { props?: infer Props }
+  ? DefineComponent<
+    Props extends Readonly<(infer PropNames)[]> | (infer PropNames)[]
+    ? { [key in PropNames extends string ? PropNames : string]?: any }
+    : Props
+  >
+  : DefineComponent
 >(
   originalComponent: T,
   options?: ComponentMountingOptions<C>
@@ -83,6 +83,7 @@ export function mount(
   // mount the app!
   let el;
 
+
   if (options?.attachTo) {
     let to: Element | null
     if (typeof options.attachTo === 'string') {
@@ -95,8 +96,15 @@ export function mount(
     } else {
       to = options.attachTo
     }
-    el = document.createElement(determineWrapperElement(options.attachTo))
-    to.appendChild(el)
+    if (options?.wrapWith) {
+      el = document.createElement(options?.wrapWith)
+      to.appendChild(el)
+    }
+    else {
+      el = document.createElement(determineWrapperElement(options.attachTo))
+      to.appendChild(el)
+    }
+
   }
   else {
     el = document.createElement('div')
@@ -125,8 +133,8 @@ export const shallowMount: typeof mount = (component: any, options?: any) => {
   return mount(component, { ...options, shallow: true })
 }
 
-function determineWrapperElement(attachTo: Element|string):string{
-  if (attachTo instanceof SVGElement){
+function determineWrapperElement(attachTo: Element | string): string {
+  if (attachTo instanceof SVGElement) {
     return "g";
   }
   return "div";
