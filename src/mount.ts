@@ -96,15 +96,8 @@ export function mount(
     } else {
       to = options.attachTo
     }
-    if (options?.wrapWith) {
-      el = document.createElement(options?.wrapWith)
-      to.appendChild(el)
-    }
-    else {
-      el = document.createElement(determineWrapperElement(options.attachTo))
-      to.appendChild(el)
-    }
-
+    el = options?.wrapWith ? document.createElement(options?.wrapWith) : document.createElement(determineWrapperElement(options.attachTo))
+    to.appendChild(el)
   }
   else {
     el = document.createElement('div')
